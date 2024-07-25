@@ -1,6 +1,7 @@
 package com.example.refactorstudydemo
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 /**
@@ -37,7 +38,16 @@ class StudyUnitTest {
 
     @Test
     fun refactorTypeCodeWithClass() {
+        val type = EmployeeAfter.create(1).getType()
+        assertEquals(type, 1)
 
+        val type2 = EmployeeAfter.create(2).getType()
+        assertEquals(type2, 2)
+
+        assertThrows(IllegalArgumentException::class.java) {
+            val type3 = EmployeeAfter.create(4).getType()
+            assertEquals(type3, 4)
+        }
     }
 
 }

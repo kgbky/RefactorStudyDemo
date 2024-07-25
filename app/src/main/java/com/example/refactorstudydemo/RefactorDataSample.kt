@@ -22,6 +22,8 @@ import java.util.Collections
  *
  * 以类取代类型码
  * 以子类取代类型码（适用于因为类型 需运行不同分支代码的情况）
+ *
+ * 以字段取代子类
  */
 
 data class Order(var customer: String)
@@ -118,11 +120,85 @@ data class People(var bloodType: Int) {
 }
 
 //表示 雇员
-data class Employee(var type: Int) {
+class Employee(val type: Int) {
     companion object {
-        val ENGINEER = 0
-        val SALESMAN = 1
-        val MANAGER = 2
+        val ENGINEER = 0 //表示工程师
+        val SALESMAN = 1 //表示销售
+        val MANAGER = 2 //表示经理
     }
 }
+
+abstract class EmployeeAfter {
+    abstract fun getType(): Int
+
+    companion object {
+        val ENGINEER = 0 //表示工程师
+        val SALESMAN = 1 //表示销售
+        val MANAGER = 2 //表示经理
+
+        fun create(type: Int): EmployeeAfter {
+            return when (type) {
+                ENGINEER -> Engineer()
+                SALESMAN -> Salesman()
+                MANAGER -> Manager()
+                else -> throw IllegalArgumentException("未定义的员工类型")
+            }
+        }
+    }
+}
+
+class Engineer : EmployeeAfter() {
+    override fun getType(): Int {
+        return ENGINEER
+    }
+}
+
+class Salesman : EmployeeAfter() {
+    override fun getType(): Int {
+        return SALESMAN
+    }
+}
+
+class Manager : EmployeeAfter() {
+    override fun getType(): Int {
+        return MANAGER
+    }
+}
+
+//Replace Subclass with Fields
+abstract class PersonT {
+    abstract fun isMale(): Boolean
+    abstract fun getCode(): Char
+}
+
+class Male : PersonT() {
+    override fun isMale(): Boolean {
+        return true
+    }
+
+    override fun getCode(): Char {
+        return 'M'
+    }
+
+}
+
+class Female : PersonT() {
+    override fun isMale(): Boolean {
+        return false
+    }
+
+    override fun getCode(): Char {
+        return 'F'
+    }
+
+}
+
+class PersonTAfter(val isMale: Boolean, val code: Char) {
+    companion object {
+        fun createMale() = PersonTAfter(true, 'M')
+        fun createFemale() = PersonTAfter(false, 'F')
+    }
+
+}
+
 
