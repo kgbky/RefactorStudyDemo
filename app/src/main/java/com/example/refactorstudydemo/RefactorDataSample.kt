@@ -77,6 +77,10 @@ data class StudentAfter(val name: String) {
     fun getCourses(): Set<Course> {
         return Collections.unmodifiableSet(courses)
     }
+
+    fun numberOfAdvCourse(): Int {
+        return courses.count { it.isAdvanced }
+    }
 }
 
 fun study() {
@@ -98,5 +102,5 @@ fun study() {
     kentAfter.addCourse(refact)
     kentAfter.removeCourse(refact)
 
-    kentAfter.getCourses().count { it.isAdvanced }
+    kentAfter.numberOfAdvCourse()
 }
