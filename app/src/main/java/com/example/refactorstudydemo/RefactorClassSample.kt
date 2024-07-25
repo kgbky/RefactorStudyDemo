@@ -1,4 +1,4 @@
-package com.example.refactorstudydemo.clz
+package com.example.refactorstudydemo
 
 import java.sql.Date
 
@@ -14,10 +14,6 @@ import java.sql.Date
  * Introduce Foreign Method (无法直接修改源类时使用，Kotlin中的扩展函数)
  * Introduce Local Extension (通过子类 或者 包装类 去扩展源类)
  */
-class RefactorClassSample {
-
-}
-
 class Account {
     val type = AccountType()
     var daysOverdrawn = 7
