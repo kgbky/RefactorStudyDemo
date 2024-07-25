@@ -18,7 +18,10 @@ import java.util.Collections
  *
  * 用常量(val)代替魔法数
  *
- * 封装集合(array/list/set/map) 235
+ * 封装集合(array/list/set/map)
+ *
+ * 以类取代类型码
+ * 以子类取代类型码（适用于因为类型 需运行不同分支代码的情况）
  */
 
 data class Order(var customer: String)
@@ -104,3 +107,22 @@ fun study() {
 
     kentAfter.numberOfAdvCourse()
 }
+
+data class People(var bloodType: Int) {
+    companion object {
+        val O = 0
+        val A = 1
+        val B = 2
+        val AB = 3
+    }
+}
+
+//表示 雇员
+data class Employee(var type: Int) {
+    companion object {
+        val ENGINEER = 0
+        val SALESMAN = 1
+        val MANAGER = 2
+    }
+}
+
