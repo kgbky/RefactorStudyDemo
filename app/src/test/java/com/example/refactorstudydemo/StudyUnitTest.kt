@@ -50,4 +50,21 @@ class StudyUnitTest {
         }
     }
 
+    @Test
+    fun refactorConditionalExp() {
+        val charge0 = getCharge(0)
+        val charge1 = getCharge(1)
+        val charge2 = getCharge(2)
+        val charge10 = getCharge(10)
+        val charge99 = getCharge(99)
+        val charge100 = getCharge(100)
+
+        assertEquals(3.0, charge0, 0.08)
+        assertEquals(4.8, charge1, 0.08)
+        assertEquals(6.6, charge2, 0.08)
+        assertEquals(21.0, charge10, 0.08)
+        assertEquals(181.2, charge99, 0.08)
+        assertEquals(183.0, charge100, 0.08)
+    }
+
 }
