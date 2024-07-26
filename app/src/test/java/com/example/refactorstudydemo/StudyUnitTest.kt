@@ -67,4 +67,21 @@ class StudyUnitTest {
         assertEquals(183.0, charge100, 0.08)
     }
 
+    @Test
+    fun refactorConditionalExpMerge() {
+        val charge0 = disabilityAmount(1, 1, false)
+        val charge1 = disabilityAmount(2, 0, false)
+        val charge2 = disabilityAmount(2, 13, false)
+        val charge10 = disabilityAmount(2, 12, false)
+        val charge99 = disabilityAmount(1, 1, true)
+        val charge100 = disabilityAmount(1, 1, true)
+
+        assertEquals(0, charge0)
+        assertEquals(11, charge1)
+        assertEquals(0, charge2)
+        assertEquals(11, charge10)
+        assertEquals(0, charge99)
+        assertEquals(0, charge100)
+    }
+
 }

@@ -8,6 +8,7 @@ import java.util.Date
  * 学习条件表达式的重构
  *
  * 分解条件表达式
+ * 合并条件表达式
  */
 
 val summerStart = Date(4654564L)
@@ -39,3 +40,19 @@ private fun summerCharge(quantity: Int) = quantity * summerRate
 private fun winterCharge(quantity: Int) = quantity * winterRate + winterServiceCharge
 
 private fun notSummer(date: Date) = date.before(summerStart) || date.after(summerEnd)
+
+//合并条件表达式
+fun disabilityAmount(seniority: Int, monthsDisable: Int, isPartTime: Boolean): Int {
+    if (isNotEligibleForDisability(seniority, monthsDisable, isPartTime)) return 0
+    return 11
+
+    //重构前
+//    if (seniority < 2) return 0
+//    if (monthsDisable > 12) return 0
+//    if (isPartTime) return 0
+//    return 11
+}
+
+//见名知意 方法名就是注释
+fun isNotEligibleForDisability(seniority: Int, monthsDisable: Int, isPartTime: Boolean) =
+    seniority < 2 || monthsDisable > 12 || isPartTime
