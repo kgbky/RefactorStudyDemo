@@ -18,11 +18,24 @@ const val winterServiceCharge = 3
 
 fun getCharge(quantity: Int): Double {
     val date = Date(System.currentTimeMillis())
-    //计算总价
-    val charge = if (date.before(summerStart) || date.after(summerEnd)) {
-        quantity * winterRate + winterServiceCharge
+    //计算总价 重构后 代码就像注释一样清楚明白
+    val charge = if (notSummer(date)) {
+        winterCharge(quantity)
     } else {
-        quantity * summerRate
+        summerCharge(quantity)
     }
     return charge
+
+    //计算总价 重构前代码
+//    val charge = if (date.before(summerStart) || date.after(summerEnd)) {
+//        quantity * winterRate + winterServiceCharge
+//    } else {
+//        quantity * summerRate
+//    }
 }
+
+private fun summerCharge(quantity: Int) = quantity * summerRate
+
+private fun winterCharge(quantity: Int) = quantity * winterRate + winterServiceCharge
+
+private fun notSummer(date: Date) = date.before(summerStart) || date.after(summerEnd)
