@@ -224,6 +224,20 @@ class Sit(private val customer: Customer?) {
     }
 }
 
+class SitAfter(private val customer: Customer) {
+    fun queryPlan(): BillingPlan {
+        return customer.getPlan()
+    }
+
+    fun queryName(): String {
+        return customer.getName()
+    }
+
+    fun queryWeeksDel(): Int {
+        return customer.getHistory().getWeeksDelinquentInLastYear()
+    }
+}
+
 //顾客
 abstract class Customer {
     abstract fun getName(): String
@@ -236,3 +250,31 @@ abstract class PaymentHistory {
 }
 
 class BillingPlan
+
+//标记接口，子类代表一个空对象
+interface Nullable
+
+//使用Null模式，所有返回Customer的地方用 NullCustomer对象 代替Null
+//使用Customer的地方不再需要判空
+object NullCustomer : Customer(), Nullable {
+    override fun getName(): String {
+        return "defaultName"
+    }
+
+    override fun getPlan(): BillingPlan {
+        return BillingPlan()
+    }
+
+    override fun getHistory(): PaymentHistory {
+        return NullPaymentHistory
+    }
+
+}
+
+object NullPaymentHistory : PaymentHistory(), Nullable {
+    override fun getWeeksDelinquentInLastYear(): Int = 0
+}
+
+fun Any.isNullObject(): Boolean {
+    return (this is Nullable)
+}
