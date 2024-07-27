@@ -162,31 +162,14 @@ data class MockData(
 //用多态替换条件表达式  源程序
 class EmployeeT(val type: EmployeeType) {
     fun payAmount(): Int {
-        return when (getType()) {
-            EmployeeType.MANAGER -> {
-                10
-            }
-
-            EmployeeType.SALESMAN -> {
-                11
-            }
-
-            EmployeeType.ENGINEER -> {
-                13
-            }
-
-            else -> {
-                9
-            }
-        }
+        return type.payAmount()
     }
-
-    private fun getType() = type.getTypeCode()
 
 }
 
 abstract class EmployeeType {
     abstract fun getTypeCode(): Int
+    abstract fun payAmount(): Int
 
     companion object {
         val ENGINEER = 0 //表示工程师
@@ -199,16 +182,28 @@ class EngineerT : EmployeeType() {
     override fun getTypeCode(): Int {
         return ENGINEER
     }
+
+    override fun payAmount(): Int {
+        return 13
+    }
 }
 
 class SalesmanT : EmployeeType() {
     override fun getTypeCode(): Int {
         return SALESMAN
     }
+
+    override fun payAmount(): Int {
+        return 11
+    }
 }
 
 class ManagerT : EmployeeType() {
     override fun getTypeCode(): Int {
         return MANAGER
+    }
+
+    override fun payAmount(): Int {
+        return 10
     }
 }
