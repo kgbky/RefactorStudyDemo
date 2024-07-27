@@ -12,6 +12,7 @@ import java.util.Date
  * 以 break 或 return 取代控制标记
  * 消灭嵌套表达式
  * 以多态(子类)取代条件表达式。适用于：多个条件表达式作用于同一个类型码
+ * Special Case(特例模式)。Null Object模式 是 特例模式的一种
  */
 
 val summerStart = Date(4654564L)
@@ -207,3 +208,31 @@ class ManagerT : EmployeeType() {
         return 10
     }
 }
+
+// null object 模式
+class Sit(private val customer: Customer?) {
+    fun queryPlan(): BillingPlan {
+        return customer?.getPlan() ?: BillingPlan()
+    }
+
+    fun queryName(): String {
+        return customer?.getName() ?: "defaultName"
+    }
+
+    fun queryWeeksDel(): Int {
+        return customer?.getHistory()?.getWeeksDelinquentInLastYear() ?: 0
+    }
+}
+
+//顾客
+abstract class Customer {
+    abstract fun getName(): String
+    abstract fun getPlan(): BillingPlan
+    abstract fun getHistory(): PaymentHistory
+}
+
+abstract class PaymentHistory {
+    abstract fun getWeeksDelinquentInLastYear(): Int
+}
+
+class BillingPlan
