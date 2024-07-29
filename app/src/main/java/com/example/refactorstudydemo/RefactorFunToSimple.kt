@@ -116,14 +116,23 @@ class Room {
 
 //Replace Par with Methods (以函数代替参数)
 class P {
-    fun getPrice(quantity: Int, itemPrice: Double): Double {
+    private val quantity: Int = 1
+    private val itemPrice: Double = 20.0
+
+    fun getPrice(): Double {
         val basePrice = quantity * itemPrice
-        val discountLevel = if (quantity > 100) 2 else 1
-        return discountedPrice(basePrice, discountLevel)
+        return discountedPrice(basePrice)
     }
 
-    fun discountedPrice(basePrice: Double, discountLevel: Int): Double {
-        return if (discountLevel == 2) basePrice * 0.1 else basePrice * 0.05
+    fun discountedPrice(basePrice: Double): Double {
+        return if (getDiscountLevel() == 2) basePrice * 0.1 else basePrice * 0.05
     }
+
+    private fun getDiscountLevel(): Int {
+        val discountLevel = if (quantity > 100) 2 else 1
+        return discountLevel
+    }
+
+
 }
 
