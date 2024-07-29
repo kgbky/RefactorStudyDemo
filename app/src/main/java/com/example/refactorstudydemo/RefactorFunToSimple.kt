@@ -1,5 +1,6 @@
 package com.example.refactorstudydemo
 
+import java.util.Date
 import kotlin.math.min
 
 /**
@@ -13,6 +14,7 @@ import kotlin.math.min
  * Replace Par with Explicit Methods (新增函数已取代参数)
  * Preserve Whole Object (方法参数使用整个对象)
  * Replace Par with Methods (以函数代替参数)
+ * Introduce Par object (把经常一起出现的参数封装为对象)
  */
 
 //查询和修改分离
@@ -133,6 +135,28 @@ class P {
         return discountLevel
     }
 
+}
 
+//Introduce Par object (参数封装为对象)
+data class Entry(val value: Double, val chargeDate: Date)
+
+class AccountT {
+    //mock data
+    val entryList = listOf<Entry>()
+
+    //可以使用Range模式重构
+    fun getFlowBetween(start: Date, end: Date): Double {
+        var result = 0.0
+        entryList.forEach {
+            if (it.chargeDate == start ||
+                it.chargeDate == end ||
+                it.chargeDate.after(start) ||
+                it.chargeDate.before(end)
+            ) {
+                result += it.value
+            }
+        }
+        return result
+    }
 }
 
