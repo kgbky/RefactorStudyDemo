@@ -145,18 +145,23 @@ class AccountT {
     val entryList = listOf<Entry>()
 
     //可以使用Range模式重构
-    fun getFlowBetween(start: Date, end: Date): Double {
+    fun getFlowBetween(range: DateRange): Double {
         var result = 0.0
         entryList.forEach {
-            if (it.chargeDate == start ||
-                it.chargeDate == end ||
-                it.chargeDate.after(start) ||
-                it.chargeDate.before(end)
-            ) {
+            if (range.include(it.chargeDate)) {
                 result += it.value
             }
         }
         return result
+    }
+
+
+}
+
+//开始重构
+data class DateRange(val start: Date, val end: Date) {
+    fun include(arg: Date): Boolean {
+        return arg == start || arg == end || arg.after(start) || arg.before(end)
     }
 }
 
