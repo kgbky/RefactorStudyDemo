@@ -91,21 +91,21 @@ class S {
 }
 
 //Preserve Whole Object (方法参数使用整个对象)
-data class TempRange(val low: Int, val high: Int)
+data class TempRange(val low: Int, val high: Int) {
+    fun includes(args: TempRange) = args.low >= this.low && args.high <= this.high
+}
 
 class HeatingPlan {
     private var range: TempRange = TempRange(10, 20)
 
-    fun withinRange(low: Int, high: Int): Boolean {
-        return low >= range.low && high <= range.high
+    fun withinRange(daysTempRange: TempRange): Boolean {
+        return range.includes(daysTempRange)
     }
 }
 
 class Room {
     fun withinPlan(plan: HeatingPlan): Boolean {
-        val low = daysTempRange().low
-        val high = daysTempRange().high
-        return plan.withinRange(low, high)
+        return plan.withinRange(daysTempRange())
     }
 
     private fun daysTempRange(): TempRange {
