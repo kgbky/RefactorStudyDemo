@@ -10,7 +10,8 @@ import kotlin.math.min
  * ReName/add Par/remove Par
  * Separate Query from modifier (查询函数 与 修改函数 分离)
  * Parameterize method (合并函数-类似的)
- * Preserve Whole Object (减少方法参数)
+ * Replace Par with Explicit Methods (新增函数已取代参数)
+ * Preserve Whole Object (方法参数使用整个对象)
  */
 
 //查询和修改分离
@@ -67,3 +68,47 @@ fun lastUsage() = 80f
 //重构后
 fun usageInRange(start: Int, end: Int): Float =
     if (lastUsage() > start) min(lastUsage(), end.toFloat()) - start else 0f
+
+//Replace Par with Explicit Methods (新增函数已取代参数)
+class S {
+    private var height = 0
+    private var width = 0
+
+    //重构前
+    fun setValue(name: String, value: Int) {
+        if (name == "height") height = value
+        else if (name == "width") width = value
+    }
+
+    //重构后
+    fun setHeight(height: Int) {
+        this.height = height
+    }
+
+    fun setWidth(width: Int) {
+        this.width = width
+    }
+}
+
+//Preserve Whole Object (方法参数使用整个对象)
+data class TempRange(val low: Int, val high: Int)
+
+class HeatingPlan {
+    private var range: TempRange = TempRange(10, 20)
+
+    fun withinRange(low: Int, high: Int): Boolean {
+        return low >= range.low && high <= range.high
+    }
+}
+
+class Room {
+    fun withinPlan(plan: HeatingPlan): Boolean {
+        val low = daysTempRange().low
+        val high = daysTempRange().high
+        return plan.withinRange(low, high)
+    }
+
+    private fun daysTempRange(): TempRange {
+        return TempRange(3, 30)
+    }
+}
