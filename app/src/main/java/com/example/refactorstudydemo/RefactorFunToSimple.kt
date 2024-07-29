@@ -12,6 +12,7 @@ import kotlin.math.min
  * Parameterize method (合并函数-类似的)
  * Replace Par with Explicit Methods (新增函数已取代参数)
  * Preserve Whole Object (方法参数使用整个对象)
+ * Replace Par with Methods (以函数代替参数)
  */
 
 //查询和修改分离
@@ -112,3 +113,17 @@ class Room {
         return TempRange(3, 30)
     }
 }
+
+//Replace Par with Methods (以函数代替参数)
+class P {
+    fun getPrice(quantity: Int, itemPrice: Double): Double {
+        val basePrice = quantity * itemPrice
+        val discountLevel = if (quantity > 100) 2 else 1
+        return discountedPrice(basePrice, discountLevel)
+    }
+
+    fun discountedPrice(basePrice: Double, discountLevel: Int): Double {
+        return if (discountLevel == 2) basePrice * 0.1 else basePrice * 0.05
+    }
+}
+
