@@ -15,6 +15,10 @@ import kotlin.math.min
  * Preserve Whole Object (方法参数使用整个对象)
  * Replace Par with Methods (以函数代替参数)
  * Introduce Par object (把经常一起出现的参数封装为对象)
+ * Hide Method（未被其他类使用的 函数和字段 用private修饰 lint自带该检查）
+ * Replace Constructor with Factory Method  (以工厂方法代替构成函数)
+ * Encapsulate Downcast (封装向下转型)
+ * Replace Error code With Exception (用异常取代错误码)
  */
 
 //查询和修改分离
@@ -165,3 +169,19 @@ data class DateRange(val start: Date, val end: Date) {
     }
 }
 
+//Replace Constructor with Factory Method  (以工厂方法代替构成函数，工厂方法模式)
+
+//Encapsulate Downcast (封装向下转型)
+class Reading //表示书籍
+
+val readings = listOf<Any>() //阅读历史
+
+//重构前 函数调用者需要进行向下转型
+fun lastReading(): Any {
+    return readings.last()
+}
+
+//重构后 向下转型搬移到该函数中
+fun lastReadingAfter(): Reading {
+    return readings.last() as Reading
+}
