@@ -84,4 +84,16 @@ class StudyUnitTest {
         assertEquals(0, charge100)
     }
 
+    @Test
+    fun refactorReplaceErrorCodeWithException(){
+        Sample2()?.apply {
+            testChecked(10)
+            try {
+                testChecked(1000)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 }

@@ -185,3 +185,62 @@ fun lastReading(): Any {
 fun lastReadingAfter(): Reading {
     return readings.last() as Reading
 }
+
+//Replace Error code With Exception (用异常取代错误码)
+class Sample2() {
+
+    fun withdraw(amount: Int): Int {
+        if (amount > balance) return -1
+        else {
+            balance -= amount
+            return 0
+        }
+    }
+
+    private var balance = 100
+
+    //模拟取款操作
+    fun test(amount: Int) {
+        if (withdraw(amount) == -1) {
+            //取款失败
+        } else {
+            //取款成功
+        }
+    }
+
+    //重构: 首先确定是否使用RuntimeException
+
+    //1、使用RunExe表示由调用者负责检查
+    fun testUnchecked(amount: Int) {
+        if (canWithDraw(amount)) {
+            //可以取款
+            withdrawWithUnchecked(amount)
+        } else {
+            //不能取款
+        }
+    }
+
+    fun canWithDraw(amount: Int): Boolean {
+        return amount <= balance
+    }
+
+    fun withdrawWithUnchecked(amount: Int) {
+        if (amount > balance) throw IllegalArgumentException("不能透支")
+        balance -= amount
+    }
+
+
+    //2、使用Exe表示由 withdraw方法 自己负责检查
+    class BalanceException : Exception()
+
+    fun withdrawWithChecked(amount: Int)  {
+        if (amount > balance) throw BalanceException()
+        balance -= amount
+    }
+
+    fun testChecked(amount: Int) {
+        //kotlin中 异常可不try catch
+        withdrawWithChecked(amount)
+    }
+
+}
