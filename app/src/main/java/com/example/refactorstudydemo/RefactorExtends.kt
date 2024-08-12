@@ -1,6 +1,7 @@
 package com.example.refactorstudydemo
 
 import java.util.Collections
+import java.util.Vector
 
 /**
  * Created by zn-guest25 on 2024/8/1    13:47
@@ -17,7 +18,9 @@ import java.util.Collections
  * Extract Superclass (提炼父类)
  * Extract Interface (提炼接口)
  *
- * Collapse Hierarchy (折叠继承关系：删除父保留子 or 删除子保留父) //377
+ * Collapse Hierarchy (折叠继承关系：删除父保留子 or 删除子保留父)
+ * Replace Inheritance with Delegation (用委托取代继承)
+ * Replace Delegation with Inheritance (用继承取代委托)
  */
 
 //Extract Subclass (提炼子类)
@@ -137,3 +140,62 @@ data class Child(
     override val firstName: String,
     override val lastName: String,
 ) : PersonM
+
+//Replace Inheritance with Delegation (用委托取代继承)
+class MyStack : Vector<String>() {
+    fun push(element: String) {
+        insertElementAt(element, 0)
+    }
+
+    fun pop(): String? {
+        val item = firstElement()
+        removeElement(0)
+        return item
+    }
+
+    //isEmpty() 继承之 Vector
+}
+
+//重构后
+class MyStackAfter {
+    private val vector: Vector<String> = Vector<String>()
+
+    fun push(element: String) {
+        vector.insertElementAt(element, 0)
+    }
+
+    fun pop(): String? {
+        val item = vector.firstElement()
+        vector.removeElement(0)
+        return item
+    }
+
+    fun isEmpty() = vector.isEmpty()
+}
+
+//Replace Delegation with Inheritance (用继承取代委托)
+//如果子类没有使用父类的所有函数，考虑使用 Extract Superclass
+class Emp {
+    private val per = Per("Andy")
+
+    fun getName() = per.name
+    fun setName(arg: String) {
+        per.name = arg
+    }
+
+    override fun toString(): String {
+        return "Emp: ${per.getLastName()}"
+    }
+}
+
+open class Per(var name: String) {
+    fun getLastName() = name.substring(name.lastIndexOf(' ') + 1)
+}
+
+//重构后
+class EmpAfter(val nameChild: String) : Per(nameChild) {
+
+    override fun toString(): String {
+        return "Emp: ${getLastName()}"
+    }
+}
